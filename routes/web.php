@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('test');
+// });
+
+// Route::get('/about', function () {
+//     $vText = "This is about page";
+//     return view('about',['vText' => $vText]);
+// });
+
+
+Route::get('/','PagesController@home');
+Route::get('/about','PagesController@about');
+Route::get('/customers','CustomerController@index');
+Route::get('/rooms','RoomsController@index');
