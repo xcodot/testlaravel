@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Room;
 
 class RoomsController extends Controller
 {
@@ -16,8 +17,8 @@ class RoomsController extends Controller
     {
         //$vRooms = DB::table('rooms') -> get();
         //dump($vCust);
-        $vRooms = \App\Room::all();  //Eloquent ORM Method
-        return view('rooms',['rooms'=>$vRooms]);
+        $vRooms = Room::all();  //Eloquent ORM Method
+        return view('rooms.roomslist',['rooms'=>$vRooms]);
     }
 
     /**
@@ -27,7 +28,7 @@ class RoomsController extends Controller
      */
     public function create()
     {
-        //
+        return view('rooms.create');
     }
 
     /**
@@ -38,7 +39,32 @@ class RoomsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Form Validation
+        $request->validate([
+            'roomtype' => 'required',
+            'status' => 'required'
+        ]);
+
+        // return $request;
+        // exit;
+        
+        //First Method Save
+        // $room = new Room;
+        // $room->roomtype = $request->roomtype;
+        // $room->status = $request->status;
+
+        // $room->save();
+
+        //Second Method Save
+        // Room::create([
+        //     'roomtype' => $request->roomtype,
+        //     'status' => $request->status
+        // ]);
+
+        //Third Method Save
+        Room::create($request->all());
+
+        return redirect('/rooms')->with('info','Room Data Saved!');
     }
 
     /**
@@ -47,9 +73,10 @@ class RoomsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Room $room)
     {
-        //
+        //return view('rooms.details',['rooms'=>$room]);
+        return view('rooms.details',compact('room'));
     }
 
     /**
@@ -81,8 +108,9 @@ class RoomsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Room $room)
     {
-        //
+        Room::destroy($room->id);
+        return redirect('/rooms')->with('info','Data Deleted!');
     }
 }

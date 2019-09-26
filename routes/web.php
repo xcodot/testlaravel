@@ -24,4 +24,11 @@
 Route::get('/','PagesController@home');
 Route::get('/about','PagesController@about');
 Route::get('/customers','CustomerController@index');
+
+Route::post('/rooms','RoomsController@store');
 Route::get('/rooms','RoomsController@index');
+
+Route::get('/rooms/create','RoomsController@create');
+Route::get('/rooms/{room}','RoomsController@show');
+Route::delete('/rooms/{room}','RoomsController@destroy');
+
